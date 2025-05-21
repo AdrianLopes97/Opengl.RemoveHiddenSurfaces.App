@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1747852567 source:c:\work\my-projects\ulbra\computacao_grafica\opengl.removehiddensurfaces.app\main.cpp
+	<GL/glut.h>
+	<iostream>
+	<vector>
+	<algorithm>
+	<string>
+
