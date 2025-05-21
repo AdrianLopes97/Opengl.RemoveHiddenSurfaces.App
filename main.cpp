@@ -1,4 +1,4 @@
-#include <GL/glut.h> // Certifique-se de que o GLUT está instalado e linkado
+#include <GL/glut.h> 
 #include <iostream>
 #include <vector>
 #include <algorithm> // Necessário para std::sort
@@ -37,7 +37,7 @@ void drawBlueTorus() {
 void drawYellowCone() {
     glColor3f(1.0f, 1.0f, 0.0f); // Cor amarela
     // A base do glutSolidCone está em z=0 e a ponta em z=altura.
-    // Para fazê-lo aparecer em uma certa profundidade, nós o transladamos.
+    // Para fazê-lo aparecer em uma certa profundidade.
     glPushMatrix();
     glTranslatef(0, 0, -0.25f); // Centraliza o cone visualmente
     glutSolidCone(0.3, 0.5, 20, 20); // Desenha um cone sólido
@@ -74,7 +74,7 @@ void drawText(float x, float y, const std::string &text) {
     glPushMatrix(); // Salva a matriz de projeção atual
     glLoadIdentity(); // Carrega a matriz identidade
     // Assumindo que o tamanho da janela é conhecido ou pode ser recuperado se dinâmico
-    // Para simplificar, usando 800x600 fixo para projeção ortográfica
+    // Para simplificar está sendo utilizado 800x600.
     gluOrtho2D(0, 800, 0, 600); // Define uma projeção ortográfica 2D
     glMatrixMode(GL_MODELVIEW); // Muda de volta para a matriz de modelview
     glPushMatrix(); // Salva a matriz de modelview atual
@@ -127,8 +127,6 @@ void display() {
     } else if (activeMethod == 3) { // Algoritmo do Pintor
         // Para o Algoritmo do Pintor, o teste de profundidade idealmente deve estar desligado, ou pode interferir
         // Ordena os objetos por profundidade (do mais distante para o mais próximo)
-        // O membro 'depth' de SceneObject é uma representação simplificada.
-        // Para um verdadeiro Algoritmo do Pintor, você calcularia o Z real a partir dos vértices transformados.
         std::sort(objects.begin(), objects.end(), [](const SceneObject& a, const SceneObject& b) {
             // Esta ordenação é baseada na 'profundidade' predefinida que é o seu Z inicial.
             // Em uma cena dinâmica, essa profundidade precisaria ser recalculada com base na visão.
