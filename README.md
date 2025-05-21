@@ -78,6 +78,26 @@ Após a compilação bem-sucedida, um arquivo executável (e.g., `HiddenSurfaceR
 
 Uma legenda no canto superior esquerdo da janela indicará qual método está ativo.
 
+### Observando o Comportamento dos Algoritmos
+
+Ao executar a aplicação, você pode observar os seguintes comportamentos ao alternar entre os métodos:
+
+*   **Tecla '0' (Nenhum método):**
+    *   **Observação**: Objetos serão desenhados na ordem em que aparecem no código, sem considerar a profundidade. Isso resultará em artefatos visuais onde objetos mais distantes podem aparecer na frente de objetos mais próximos se forem desenhados depois. Gire a cena para ver como a sobreposição incorreta muda.
+
+*   **Tecla '1' (Back-Face Culling):**
+    *   **Observação**: As faces dos objetos que não estão voltadas para a câmera não serão renderizadas. Isso é mais perceptível em objetos "abertos" ou se caso nós pudessemos entrar dentro de um objeto. Para os sólidos `glutSolid*`, o efeito principal é uma otimização (menos polígonos para processar), mas visualmente pode não ser diferente do Z-Buffer para objetos fechados. Se os objetos fossem, por exemplo, caixas sem tampa, você veria o interior ao invés da face traseira ser desenhada incorretamente sobre a face frontal.
+
+*   **Tecla '2' (Z-Buffer):**
+    *   **Observação**: Este é geralmente o método mais robusto visualmente. Cada pixel é verificado contra o buffer de profundidade. Objetos mais próximos corretamente ocluem objetos mais distantes, independentemente da ordem de desenho. Gire a cena; a visualização deve permanecer correta em todos os ângulos.
+
+*   **Tecla '3' (Algoritmo do Pintor):**
+    *   **Observação**: Os objetos são desenhados do mais distante para o mais próximo. Para a configuração atual (objetos separados e sem intersecção complexa), ele deve funcionar bem e parecer similar ao Z-Buffer. No entanto, o Algoritmo do Pintor falha em casos de:
+        *   **Objetos que se Interpenetram**: Se dois objetos se cruzarem, a ordenação simples por um ponto de profundidade pode não ser suficiente para resolver qual parte de qual objeto está na frente.
+        *   **Dependência Cíclica de Profundidade**: Três ou mais objetos que se sobrepõem de forma cíclica (A sobre B, B sobre C, e C sobre A) não podem ser ordenados corretamente por este método simples.
+        *   **Objetos Muito Grandes**: Um único polígono muito grande que se estende por várias profundidades pode ser difícil de ordenar corretamente contra outros objetos.
+    *   Na implementação atual, a "profundidade" é baseada na posição Z inicial dos objetos. Se os objetos fossem mais complexos ou se movessem dinamicamente de forma a interpenetrarem-se significativamente, você poderia começar a ver artefatos onde a ordenação falha.
+
 ## Estrutura do Projeto
 
 *   `main.cpp`: Contém todo o código-fonte da aplicação.
